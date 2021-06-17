@@ -1,5 +1,8 @@
 #include "tile.cpp"
 #include <iostream>
+#include <algorithm>
+
+using namespace std;
 
 // May or may not use this
 
@@ -10,6 +13,79 @@ class Board
     private:
         Tile* board;
         int width;
+
+        int num_minimaxes;
+
+        int minimax(bool isMaximizingPlayer)
+        {
+            // If the game is in a terminal state, return the value of the board
+            if (this->game_tied() || this->game_won())
+            {
+                int value = this->game_won();
+                num_minimaxes += 1;
+                return value;
+
+            }
+
+            // Turn would be the human player
+            if (isMaximizingPlayer)
+            {
+                int best_value = INT_MIN;
+
+                for (int x = 0; x < width; x++)
+                {
+                    for (int y = 0; y < width; y++)
+                    {
+                        if (board[x * width + y].get_state() == N)
+                        {
+                            // Set the board as if the player made this move
+                            board[x * width + y].set_state(X);
+                            // print();
+                            // cout << endl;
+                            int value = minimax(false);
+
+                            // Set the board back to normal                        
+                            board[x * width + y].set_state(N);
+
+                            // cout << "Value of " << x << ", " << y << " is " << value << endl;
+
+                            best_value = max(best_value, value);
+                        }
+                    }
+                }
+                return best_value;
+            }
+
+            // Turn would be the AI
+            else
+            {
+                int best_value = INT_MAX;
+
+                for (int x = 0; x < width; x++)
+                {
+                    for (int y = 0; y < width; y++)
+                    {
+                        if (board[x * width + y].get_state() == N)
+                        {
+                            // cout << "Current tile: " << x << ", " << y << endl;
+
+                            // Set the board as if the player made this move
+                            board[x * width + y].set_state(O);
+                            // print();
+                            // cout << endl;
+                            int value = minimax(true);
+
+                            // Set the board back to normal                        
+                            board[x * width + y].set_state(N);
+
+                            best_value = min(best_value, value);
+                        }
+                    }
+                }
+                return best_value;
+            }
+
+        }
          
     public:
         Board()
@@ -17,15 +93,28 @@ class Board
             // Store in a 1D array for more cache hits
             board = new Tile[9];
             width = 3;
+
+
+            // Set the locations of all of the tiles on the board
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < width; y++)
+                {
+                    board[x * width + y].set_location(x, y);
+                }
+            }
+
+            // Set the width of the the board to be 3
+            // FIXME : MIGHT CHANGE THIS LATER AND BE CUSTOMIZABLE
         }
 
-        bool set_tile(int x, int y, tile_state tt)
+        bool set_tile(int x, int y, tile_state state)
         {
             // Before assigning, check to make sure the tile is un-occupied.
             if (board[x * width + y].get_state() == N)
             {
                 // Set the tile state and return true.
-                board[x * width + y].set_state(tt);
+                board[x * width + y].set_state(state);
                 return true;
             }
             // Tile was not set; return false
@@ -41,42 +130,41 @@ class Board
                     if (board[x * width + y].get_state() == N)
                         return false;
                 }
-                std::cout << "\n";
             }
 
-            // If none of the tiles are unoccupied, then tie.
+            // If all of the tiles are occupied (and presumably no winner), then tie.
             return true;
         }
 
-        bool game_won()
+        int game_won()
         {
             // Sum each direction and check for a 0
             int r1 = board[0].get_state() + board[1].get_state() + board[2].get_state();
-            if (r1 == -3 || r1 == 3) return true; 
+            if (r1 == -3 || r1 == 3) return r1; 
 
             int r2 = board[3].get_state() + board[4].get_state() + board[5].get_state();
-            if (r2 == -3 || r2 == 3) return true; 
+            if (r2 == -3 || r2 == 3) return r2; 
 
             int r3 = board[6].get_state() + board[7].get_state() + board[8].get_state();
-            if (r3 == -3 || r3 == 3) return true; 
+            if (r3 == -3 || r3 == 3) return r3; 
 
             int c1 = board[0].get_state() + board[3].get_state() + board[6].get_state();
-            if (c1 == -3 || c1 == 3) return true; 
+            if (c1 == -3 || c1 == 3) return c1; 
 
             int c2 = board[1].get_state() + board[4].get_state() + board[7].get_state();
-            if (c2 == -3 || c2 == 3) return true; 
+            if (c2 == -3 || c2 == 3) return c2; 
 
             int c3 = board[2].get_state() + board[5].get_state() + board[8].get_state();
-            if (c3 == -3 || c3 == 3) return true; 
+            if (c3 == -3 || c3 == 3) return c3; 
 
             int d1 = board[0].get_state() + board[4].get_state() + board[8].get_state();
-            if (d1 == -3 || d1 == 3) return true; 
+            if (d1 == -3 || d1 == 3) return d1; 
 
             int d2 = board[2].get_state() + board[4].get_state() + board[6].get_state();
-            if (d2 == -3 || d2 == 3) return true; 
+            if (d2 == -3 || d2 == 3) return d2; 
 
             // There are no zeros, the player has not won 
-            return false;
+            return 0;
          }
 
          // To make this work for a secon player, just change the value of O in enum to 2, and add another check for 6 ^
@@ -103,5 +191,54 @@ class Board
         {
             delete[] board;
         }
+
+        // Note that this returns the tile, not the pointer
+        Tile get_best_move()
+        {
+            Tile* best_tile = NULL;
+            int highest_value = INT_MAX;
+
+            this->num_minimaxes = 0;
+
+            // Loop through all of the possible next moves
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < width; y++)
+                {
+                    // Make sure the tile is not already occupied 
+                    if (board[x * width + y].get_state() == N)
+                    {
+                        // Set the board as if the AI picked this spot
+                        board[x * width + y].set_state(O);
+
+                        // Find the ultimate value of this path
+                        // cout << "Starting minimax\n";
+                        int move_value = minimax(true);
+
+                        // Set the board back to normal
+                        board[x * width + y].set_state(N);
+
+                        // See if this move had the highest value
+                        if (move_value < highest_value)
+                        {
+                            highest_value = move_value;
+                            best_tile = &board[x * width + y];
+                        }
+                    }
+                }
+            }
+
+            return *best_tile;
+        }
 };
+
+/*
+    Here is what I need: 
+    1. Functions that determine a terminal state of the game
+    2. Function that returns a value based on the terminal state of the game.
+    3. Function that clears those board states (store the states so that we don't have to recompute
+       between finding the terminal state and the value of the terminal state)
+
+    or we coud just have this function return 
+*/  
 

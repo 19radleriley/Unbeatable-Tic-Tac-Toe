@@ -80,19 +80,32 @@ bool human_turn(tile_state player, Board* board)
     return board->game_won();    
 }
 
+// bool AI_turn(tile_state player, Board* board)
+// {
+//     bool valid_tile = false;
+
+//     while (valid_tile == false)
+//     {
+//         int x = rand() % 3;
+//         int y = rand() % 3;
+        
+//         valid_tile = board->set_tile(x, y, player);
+//     }
+//     return board->game_won();
+// }
+
 bool AI_turn(tile_state player, Board* board)
 {
-    bool valid_tile = false;
+    Tile best_tile = board->get_best_move();
 
-    while (valid_tile == false)
-    {
-        int x = rand() % 3;
-        int y = rand() % 3;
-        
-        valid_tile = board->set_tile(x, y, player);
-    }
+    // cout << "Best move is " << best_tile.get_x() << ", " << best_tile.get_y() << endl;
+    board->set_tile(best_tile.get_x(),best_tile.get_y(), player);
+
+
+
     return board->game_won();
 }
+
 
 int get_user_input()
 {
