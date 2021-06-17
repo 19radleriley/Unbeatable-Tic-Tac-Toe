@@ -32,7 +32,23 @@ class Board
             return false;
         }
 
-        bool game_finished()
+        bool game_tied()
+        {
+            for(int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < width; y++)
+                {
+                    if (board[x * width + y].get_state() == N)
+                        return false;
+                }
+                std::cout << "\n";
+            }
+
+            // If none of the tiles are unoccupied, then tie.
+            return true;
+        }
+
+        bool game_won()
         {
             // Sum each direction and check for a 0
             int r1 = board[0].get_state() + board[1].get_state() + board[2].get_state();

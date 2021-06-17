@@ -15,24 +15,32 @@ bool AI_turn(tile_state player, Board* board);
 int main()
 {
     Board* board = new Board();
-    bool game_finished = false;
-    srand(time(NULL));
+    bool player_won = false;
+    bool game_tied = false;
     int player = X;
+    srand(time(NULL));
 
-    while (game_finished == false)
+    while (player_won == false && game_tied == false)
     {
-        game_finished = player_turn(tile_state(player), board);
+        player_won = player_turn(tile_state(player), board);
 
         // Print out the board
         board->print();    
         cout << "\n";
 
         // Switch to the other player  
-        if (game_finished == false)
+        if (player_won == false)
+        {
             player = -player;
+            game_tied = board->game_tied();
+        }
     }
 
-    cout << "The game is finished, congratulations player " << player <<"!\n";
+    if (player_won)
+        cout << "The game is finished, congratulations player " << player <<"!\n";
+    else
+        cout << "The game is a tie!\n";
+        
     board->free_data();
 }
 
@@ -69,7 +77,7 @@ bool human_turn(tile_state player, Board* board)
         }
     }
  
-    return board->game_finished();    
+    return board->game_won();    
 }
 
 bool AI_turn(tile_state player, Board* board)
@@ -83,7 +91,7 @@ bool AI_turn(tile_state player, Board* board)
         
         valid_tile = board->set_tile(x, y, player);
     }
-    return board->game_finished();
+    return board->game_won();
 }
 
 int get_user_input()
