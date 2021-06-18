@@ -1,3 +1,12 @@
+/*
+ * Author: Riley Radle
+ * Description: 
+ *      Contains a Tile class to represent each tile 
+ *      on the tic tac toe board.  Each tile has three
+ *      attributes, an X location, a Y location, and 
+ *      a tile state (X O or N).
+ */
+
 #include "tile_state.cpp"
 
 // Make a class that represents a tile for the tic tac toe board

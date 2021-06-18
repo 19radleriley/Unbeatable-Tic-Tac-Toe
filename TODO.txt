@@ -1,0 +1,1 @@
+1. Add depth checking to the AI so that it will take the shortest path to victory 

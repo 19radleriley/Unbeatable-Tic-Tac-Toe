@@ -1,0 +1,19 @@
+Creating a branch:
+git branch branch_name
+
+Viewing your branches:
+git branch
+
+Switching between branches:
+git checkout branch_name
+
+Merging a branch:
+(from main branch)
+git merge branch_name
+
+Deleting a branch:
+git branch -d branch_name
+
+Viewing the differences between two branches:
+git diff branch_name branch_name
+

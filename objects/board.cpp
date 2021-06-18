@@ -1,3 +1,13 @@
+/*
+ * Author: Riley Radle
+ * Description: 
+ *      Contains a board class which represents a
+ *      game board as an arrangement of tiles.  The 
+ *      tiles are stored in a 1 dimensional array
+ *      but can be thought of as a width * width 
+ *      grid (3x3 by default).
+ */
+
 #include "tile.cpp"
 #include <iostream>
 #include <algorithm>
@@ -14,17 +24,12 @@ class Board
         Tile* board;
         int width;
 
-        int num_minimaxes;
-
         int minimax(bool isMaximizingPlayer)
         {
             // If the game is in a terminal state, return the value of the board
             if (this->game_tied() || this->game_won())
             {
-                int value = this->game_won();
-                num_minimaxes += 1;
-                return value;
-
+                return this->game_won();
             }
 
             // Turn would be the human player
@@ -40,14 +45,11 @@ class Board
                         {
                             // Set the board as if the player made this move
                             board[x * width + y].set_state(X);
-                            // print();
-                            // cout << endl;
                             int value = minimax(false);
 
                             // Set the board back to normal                        
                             board[x * width + y].set_state(N);
 
-                            // cout << "Value of " << x << ", " << y << " is " << value << endl;
 
                             best_value = max(best_value, value);
                         }
@@ -71,8 +73,6 @@ class Board
 
                             // Set the board as if the player made this move
                             board[x * width + y].set_state(O);
-                            // print();
-                            // cout << endl;
                             int value = minimax(true);
 
                             // Set the board back to normal                        
@@ -88,11 +88,11 @@ class Board
         }
          
     public:
-        Board()
+        Board(int width)
         {
             // Store in a 1D array for more cache hits
-            board = new Tile[9];
-            width = 3;
+            board = new Tile[width * width];
+            this->width = width;
 
 
             // Set the locations of all of the tiles on the board
@@ -103,9 +103,6 @@ class Board
                     board[x * width + y].set_location(x, y);
                 }
             }
-
-            // Set the width of the the board to be 3
-            // FIXME : MIGHT CHANGE THIS LATER AND BE CUSTOMIZABLE
         }
 
         bool set_tile(int x, int y, tile_state state)
@@ -197,8 +194,6 @@ class Board
         {
             Tile* best_tile = NULL;
             int highest_value = INT_MAX;
-
-            this->num_minimaxes = 0;
 
             // Loop through all of the possible next moves
             for (int x = 0; x < width; x++)
