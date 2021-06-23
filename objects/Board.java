@@ -8,8 +8,9 @@
  */
 
 package objects;
+import javax.swing.JPanel;
 
-public class Board 
+public class Board extends JPanel
 {
       private Tile[] board;
       private int width; 

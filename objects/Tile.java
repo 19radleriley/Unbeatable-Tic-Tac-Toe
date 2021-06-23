@@ -9,49 +9,82 @@
 
 package objects;
 
-public class Tile 
-{
-   private int state; 
-   private int x;
-   private int y; 
-  
-   
-   // Constructor
-   public Tile()
-   {
-       state = TileState.N;
-   }
+import javax.swing.JPanel;
 
-   public Tile(int x, int y, int state)
-   {
-       this.x = x;
-       this.y = y;
-       this.state = state;
-   }
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-   public int getState()
-   {
-       return state;
-   }
+public class Tile extends JPanel implements MouseListener {
+    private int state;
+    private int x;
+    private int y;
 
-   public int getX()
-   {
-       return x;
-   }
+    // Constructor
+    public Tile() 
+    {
+        state = TileState.N;
+    }
 
-   public int getY()
-   {
-       return y;
-   }
+    public Tile(int x, int y, int state) 
+    {
+        this.x = x;
+        this.y = y;
+        this.state = state;
+    }
 
-   public void setState(int state)
-   {
-       this.state = state;
-   }
+    public int getState() 
+    {
+        return state;
+    }
 
-   public void setLocation(int x, int y)
-   {
-       this.x = x;
-       this.y = y;
-   }
+    public int getX() 
+    {
+        return x;
+    }
+
+    public int getY() 
+    {
+        return y;
+    }
+
+    public void setState(int state) 
+    {
+        this.state = state;
+    }
+
+    public void setLocation(int x, int y) 
+    {
+        this.x = x;
+        this.y = y;
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) 
+    {
+        // Implement the logic to click on the tile
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) 
+    {
+        // Implement the logic to click on the tile
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) 
+    {
+        // Will likely be unused
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) 
+    {
+        // Will likely be unused
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) 
+    {
+        // Will likely be unused
+    }
 }
