@@ -84,28 +84,7 @@ public class TicTacToe
                   System.out.println("That tile is already taken, please choose again.");
               }
           }        
-      }
-
-      private int getMove()
-      {
-          Scanner scan = new Scanner(System.in);
-          boolean validInput = false;
-          int input = -1;
-          while (validInput == false)
-          {
-              if (scan.hasNextInt())
-                  input = scan.nextInt();
-              
-              if (input > (boardWidth - 1) || input < 0)
-              {
-                  System.out.println("That was invalid");
-                  continue;
-              }
-              validInput = true;
-          }
-          scan.close();
-          return input;
-      }
+      } 
       
       private int getPlayerMove(Scanner scan)
       {

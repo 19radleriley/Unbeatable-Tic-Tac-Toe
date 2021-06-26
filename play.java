@@ -12,8 +12,6 @@ public class play
 {
     public static void main(String[] args) 
     {
-        GameWindow g = new GameWindow();
-
         // Create the scanner
         Scanner scan = new Scanner(System.in);
 
