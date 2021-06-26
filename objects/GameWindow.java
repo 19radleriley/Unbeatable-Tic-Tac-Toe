@@ -106,9 +106,13 @@ public class GameWindow extends JFrame implements ActionListener
         this.setTitle("Game Screen");
         this.setLayout(new FlowLayout());
         JPanel boardContainer = new JPanel();
+        boardContainer.setLayout(new BorderLayout());
         boardContainer.setPreferredSize(new Dimension(width, (height / 4) * 3));
         boardContainer.setBackground(Color.pink);
 
+        Board gameBoard = new Board(3);
+        boardContainer.add(gameBoard);
+        
         JPanel bottom = new JPanel();
         bottom.setPreferredSize(new Dimension(width, height - (boardContainer.getY() + boardContainer.getHeight())));
 
@@ -120,6 +124,7 @@ public class GameWindow extends JFrame implements ActionListener
 
         this.add(boardContainer);
         this.setVisible(true);
+        this.repaint();
     }
 }
 

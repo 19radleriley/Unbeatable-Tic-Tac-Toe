@@ -8,7 +8,9 @@
  */
 
 package objects;
-import javax.swing.JPanel;
+import javax.swing.*;
+
+import java.awt.*;
 
 public class Board extends JPanel
 {
@@ -21,6 +23,8 @@ public class Board extends JPanel
           board = new Tile[width * width];
           this.width = width;
 
+          // Set the layout of the board to be a grid
+          this.setLayout(new GridLayout(width, width));
 
           // Set the locations of all of the tiles on the board
           for (int x = 0; x < width; x++)
@@ -28,6 +32,7 @@ public class Board extends JPanel
               for (int y = 0; y < width; y++)
               {
                   Tile tile = new Tile(x, y, TileState.N);
+                  this.add(tile);
                   board[x * width + y] = tile;
               }
           }

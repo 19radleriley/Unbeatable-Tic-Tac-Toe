@@ -9,27 +9,55 @@
 
 package objects;
 
-import javax.swing.JPanel;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
-public class Tile extends JPanel implements MouseListener {
+public class Tile extends JPanel implements MouseListener
+{
     private int state;
-    private int x;
-    private int y;
+    private int row;
+    private int col;
 
     // Constructor
     public Tile() 
     {
+        super();
         state = TileState.N;
+        setGraphics(state);
     }
 
-    public Tile(int x, int y, int state) 
+    public Tile(int row, int col, int state) 
     {
-        this.x = x;
-        this.y = y;
+        super();
+        this.row = row;
+        this.col = col;
         this.state = state;
+        this.addMouseListener(this);
+        setGraphics(state);
+    }
+
+    public void setGraphics(int state)
+    {
+        // First time the method is called, set up the graphics of the tile
+        if (state == TileState.N)
+        {
+            this.setLayout(new BorderLayout());
+            this.setBackground(Color.lightGray);
+            this.setOpaque(true);
+            this.setBorder(BorderFactory.createLineBorder(Color.black));
+        }
+
+        // Subsequent times the method is called, set the icon of the tile to be X or O
+        else 
+        {
+            JLabel graphic = state == TileState.X ? new JLabel("X") : new JLabel("O");
+            graphic.setFont(new Font("Calibri", Font.PLAIN, 120));
+            graphic.setHorizontalAlignment(JLabel.CENTER);
+            graphic.setVerticalAlignment(JLabel.CENTER);
+            this.add(graphic);
+        }
     }
 
     public int getState() 
@@ -37,14 +65,14 @@ public class Tile extends JPanel implements MouseListener {
         return state;
     }
 
-    public int getX() 
+    public int getRow() 
     {
-        return x;
+        return row;
     }
 
-    public int getY() 
+    public int getCol() 
     {
-        return y;
+        return col;
     }
 
     public void setState(int state) 
@@ -52,39 +80,40 @@ public class Tile extends JPanel implements MouseListener {
         this.state = state;
     }
 
-    public void setLocation(int x, int y) 
+    public void setLocation(int row, int col) 
     {
-        this.x = x;
-        this.y = y;
+        this.row = row;
+        this.col = col;
     }
 
     @Override
-    public void mouseClicked(MouseEvent e) 
-    {
-        // Implement the logic to click on the tile
+    public void mouseClicked(MouseEvent e) {
+        Tile clicked = (Tile)e.getSource();
+
+        System.out.printf("This was tile: (%d, %d)", clicked.getRow(), clicked.getCol());
     }
 
     @Override
-    public void mousePressed(MouseEvent e) 
-    {
-        // Implement the logic to click on the tile
+    public void mousePressed(MouseEvent e) {
+        // TODO Auto-generated method stub
+        
     }
 
     @Override
-    public void mouseReleased(MouseEvent e) 
-    {
-        // Will likely be unused
+    public void mouseReleased(MouseEvent e) {
+        // TODO Auto-generated method stub
+        
     }
 
     @Override
-    public void mouseEntered(MouseEvent e) 
-    {
-        // Will likely be unused
+    public void mouseEntered(MouseEvent e) {
+        // TODO Auto-generated method stub
+        
     }
 
     @Override
-    public void mouseExited(MouseEvent e) 
-    {
-        // Will likely be unused
+    public void mouseExited(MouseEvent e) {
+        // TODO Auto-generated method stub
+        
     }
 }
