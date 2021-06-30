@@ -5,9 +5,9 @@
  *      on the tic tac toe board can have: X, O, or N (not occupied)
  */
 
-package objects;
 
-public class TileState 
+
+public class TileType 
 {
    public static final int O = -1;
    public static final int N = 0;

@@ -6,7 +6,7 @@
  *      to be ran from a driver program. 
  */
 
-package objects;
+
 
 import java.util.Scanner;
 
@@ -35,7 +35,7 @@ public class TicTacToe
 
       public void playerTurn(int player, Scanner scan)
       {
-          if (player == TileState.X) 
+          if (player == TileType.X) 
               humanTurn(player, scan);
           else
           {

@@ -1,1 +1,14 @@
-1. Add depth checking to the AI so that it will take the shortest path to victory 
+2. Allow the user to select whether they want to be x's or o's
+	- This could be done with a menubar and a settings page? 
+	- This could also be where the user can change the difficulty of the AI
+3. Allow the user to select the color theme of the game
+4. Create simple animations for the background of the homescreen
+5. Add simple music to the background of the app
+	- The user can toggle this on or off in the settings of the app
+6. Add basic save functionality (using serialization)
+	- Can use our Unity project for reference or just watch a video
+	- Just use this to save settings 
+
+	TODO
+	- Implement difficulty
+	- Implement player turns and 2 player mode 

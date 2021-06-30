@@ -7,7 +7,7 @@
  *      but can be thought of as a 3 * 3 grid.
  */
 
-package objects;
+
 import javax.swing.*;
 
 import java.awt.*;
@@ -17,7 +17,7 @@ public class Board extends JPanel
       private Tile[] board;
       private int width; 
        
-      public Board(int width)
+      public Board(Driver driver, int width)
       {
           // Store in a 1D array for more cache hits
           board = new Tile[width * width];
@@ -26,38 +26,56 @@ public class Board extends JPanel
           // Set the layout of the board to be a grid
           this.setLayout(new GridLayout(width, width));
 
-          // Set the locations of all of the tiles on the board
-          for (int x = 0; x < width; x++)
+          // Create all of the tiles for the board
+          for (int row = 0; row < width; row++)
           {
-              for (int y = 0; y < width; y++)
+              for (int col = 0; col < width; col++)
               {
-                  Tile tile = new Tile(x, y, TileState.N);
+                  Tile tile = new Tile(row, col, TileType.N);
+                  tile.addActionListener(driver);
+                  tile.setFocusable(false);
+
+                  // Add the tile to the board
                   this.add(tile);
-                  board[x * width + y] = tile;
+                  board[row * width + col] = tile;
               }
           }
       }
 
-      public boolean setTile(int x, int y, int state)
+      public void toggleTiles(boolean clickable)
+      {
+          for (int i = 0; i < board.length; i++)
+          {
+              board[i].setEnabled(clickable);
+          }
+      }
+
+      public boolean setTile(Tile tile, int state)
       {
           // Before assigning, check to make sure the tile is un-occupied.
-          if (board[x * width + y].getState() == TileState.N)
+          if (tile != null && tile.getState() == TileType.N)
           {
               // Set the tile state and return true.
-              board[x * width + y].setState(state);
+              tile.setState(state);
               return true;
           }
           // Tile was not set; return false
           return false;
       }
 
+      public Tile getTile(int row, int col)
+      {
+          return board[row * width + col];
+      }
+
       public boolean gameTied()
       {
-          for(int x = 0; x < width; x++)
+        //   System.out.println("Running");
+          for(int row = 0; row < width; row++)
           {
-              for (int y = 0; y < width; y++)
+              for (int col = 0; col < width; col++)
               {
-                  if (board[x * width + y].getState() == TileState.N)
+                  if (board[row * width + col].getState() == TileType.N)
                       return false;
               }
           }
@@ -97,21 +115,11 @@ public class Board extends JPanel
           return 0;
        }
 
-      public void print()
+      public void reset()
       {
-          for(int x = 0; x < width; x++)
+          for (Tile t : board)
           {
-              for (int y = 0; y < width; y++)
-              {
-                  Tile tile = board[x * width + y];
-                  if (tile.getState() == TileState.X)
-                     System.out.print("X ");
-                  else if (tile.getState() == TileState.O)
-                     System.out.print("O ");
-                  else
-                      System.out.print("- ");
-              }
-              System.out.println();
+              t.setState(TileType.N);
           }
       }
 
@@ -126,17 +134,17 @@ public class Board extends JPanel
               for (int y = 0; y < width; y++)
               {
                   // Make sure the tile is not already occupied 
-                  if (board[x * width + y].getState() == TileState.N)
+                  if (board[x * width + y].getState() == TileType.N)
                   {
                       // Set the board as if the AI picked this spot
-                      board[x * width + y].setState(TileState.O);
+                      board[x * width + y].setState(TileType.O);
 
                       // Find the ultimate value of this path
                       // cout << "Starting minimax\n";
                       int moveValue = minimax(true);
 
                       // Set the board back to normal
-                      board[x * width + y].setState(TileState.N);
+                      board[x * width + y].setState(TileType.N);
 
                       // See if this move had the highest value
                       if (moveValue < highestValue)
@@ -168,15 +176,14 @@ public class Board extends JPanel
               {
                   for (int y = 0; y < width; y++)
                   {
-                      if (board[x * width + y].getState() == TileState.N)
+                      if (board[x * width + y].getState() == TileType.N)
                       {
                           // Set the board as if the player made this move
-                          board[x * width + y].setState(TileState.X);
+                          board[x * width + y].setState(TileType.X);
                           int value = minimax(false);
 
                           // Set the board back to normal                        
-                          board[x * width + y].setState(TileState.N);
-
+                          board[x * width + y].setState(TileType.N);
 
                           bestValue = Math.max(bestValue, value);
                       }
@@ -194,14 +201,14 @@ public class Board extends JPanel
               {
                   for (int y = 0; y < width; y++)
                   {
-                      if (board[x * width + y].getState() == TileState.N)
+                      if (board[x * width + y].getState() == TileType.N)
                       {
                           // Set the board as if the player made this move
-                          board[x * width + y].setState(TileState.O);
+                          board[x * width + y].setState(TileType.O);
                           int value = minimax(true);
 
                           // Set the board back to normal                        
-                          board[x * width + y].setState(TileState.N);
+                          board[x * width + y].setState(TileType.N);
 
                           bestValue = Math.min(bestValue, value);
                       }
@@ -209,6 +216,5 @@ public class Board extends JPanel
               }
               return bestValue;
           }
-
       }
 }
