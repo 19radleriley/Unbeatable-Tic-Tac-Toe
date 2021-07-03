@@ -49,12 +49,20 @@ public class AI
         "Don't blink, you might miss my move"
     };
 
+    private Data saveData;
+
+    public AI(Data saveData)
+    {
+        this.saveData = saveData;
+    }
+
     public void playTurn(Board board)
     {
-        if (Math.random() < bestMoveProbability())
+        float prob = bestMoveProbability();
+        if (Math.random() < prob)
         {
             Tile bestTile = board.getBestMove();
-            board.setTile(bestTile, -Settings.playerType); 
+            board.setTile(bestTile, -saveData.getPlayerType()); 
         }
         else
         {
@@ -65,14 +73,14 @@ public class AI
                 int row = (int)(Math.random() * 3);
                 int col = (int)(Math.random() * 3);
                 
-                validTile = board.setTile(board.getTile(row, col), -Settings.playerType);
+                validTile = board.setTile(board.getTile(row, col), -saveData.getPlayerType());
             }
         }
     }
 
     public String getSaying()
     {
-        switch(Settings.difficulty)
+        switch(saveData.getDifficulty())
         {
             case 0:
                 return chooseRandom(easySayings);
@@ -80,7 +88,7 @@ public class AI
                 return chooseRandom(mediumSayings);
             case 2:
                 return chooseRandom(hardSayings);            
-            case 4:
+            case 3:
                 return chooseRandom(unbeatableSayings);
         }     
         
@@ -89,7 +97,7 @@ public class AI
 
     private float bestMoveProbability()
     {
-        switch(Settings.difficulty)
+        switch(saveData.getDifficulty())
         {
             case 0:
                 return 0.25f;

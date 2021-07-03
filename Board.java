@@ -16,12 +16,14 @@ public class Board extends JPanel
 {
       private Tile[] board;
       private int width; 
+      private Data saveData;
        
-      public Board(Driver driver, int width)
+      public Board(Driver driver, Data saveData, int width)
       {
           // Store in a 1D array for more cache hits
           board = new Tile[width * width];
           this.width = width;
+          this.saveData = saveData;
 
           // Set the layout of the board to be a grid
           this.setLayout(new GridLayout(width, width));
@@ -126,7 +128,8 @@ public class Board extends JPanel
       public Tile getBestMove()
       {
           Tile bestTile = null;
-          int highestValue = Integer.MAX_VALUE;
+          boolean isMaximizingPlayer = saveData.getPlayerType() == TileType.X ? true : false;
+          int bestValue = isMaximizingPlayer ? Integer.MAX_VALUE : Integer.MIN_VALUE;
 
           // Loop through all of the possible next moves
           for (int x = 0; x < width; x++)
@@ -137,20 +140,30 @@ public class Board extends JPanel
                   if (board[x * width + y].getState() == TileType.N)
                   {
                       // Set the board as if the AI picked this spot
-                      board[x * width + y].setState(TileType.O);
+                      board[x * width + y].setState(-saveData.getPlayerType());
 
                       // Find the ultimate value of this path
-                      // cout << "Starting minimax\n";
-                      int moveValue = minimax(true);
+                      int moveValue = minimax(isMaximizingPlayer);
 
                       // Set the board back to normal
                       board[x * width + y].setState(TileType.N);
 
-                      // See if this move had the highest value
-                      if (moveValue < highestValue)
+                      // See if this move had the best value
+                      if (isMaximizingPlayer)
                       {
-                          highestValue = moveValue;
-                          bestTile = board[x * width + y];
+                          if (moveValue < bestValue)
+                          {
+                            bestValue = moveValue;
+                            bestTile = board[x * width + y];
+                          }
+                      }
+                      else
+                      {
+                          if (moveValue > bestValue)
+                          {
+                              bestValue = moveValue;
+                              bestTile = board[x * width + y];
+                          }
                       }
                   }
               }

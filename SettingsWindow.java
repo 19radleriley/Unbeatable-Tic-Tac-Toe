@@ -4,6 +4,8 @@ import java.awt.event.*;
 
 public class SettingsWindow extends JFrame implements ActionListener
 {
+    private Data saveData;
+
     private JButton save;
     private JButton cancel;
 
@@ -13,10 +15,12 @@ public class SettingsWindow extends JFrame implements ActionListener
     private JRadioButton unbeatable;
 
     private JRadioButton playerX;
-    private JRadioButton playerY;
+    private JRadioButton playerO;
 
-    public SettingsWindow()
+    public SettingsWindow(Data saveData)
     {
+        this.saveData = saveData;
+
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.setLayout(new GridLayout(3, 1));
         this.setSize(200, 300);
@@ -33,7 +37,6 @@ public class SettingsWindow extends JFrame implements ActionListener
         difficultyContainer.setLayout(new GridLayout(5, 1));
         difficultyContainer.add(new JLabel("Difficulty"));
 
-
         // Add buttons to select the difficulty
         easy = addRadioButton("Easy", difficulty, difficultyContainer);
         medium = addRadioButton("Medium", difficulty, difficultyContainer);;
@@ -48,7 +51,7 @@ public class SettingsWindow extends JFrame implements ActionListener
 
         // Create radio buttons for the player types
         playerX = addRadioButton("X", playerType, playerTypeContainer);
-        playerY = addRadioButton("O", playerType, playerTypeContainer);
+        playerO = addRadioButton("O", playerType, playerTypeContainer);
 
         // Add a buttons to save or cancel and close the window
         JPanel closeContainer = new JPanel();
@@ -64,6 +67,9 @@ public class SettingsWindow extends JFrame implements ActionListener
         this.add(difficultyContainer);
         this.add(closeContainer);
         this.setVisible(true);
+
+        // Display the Data already enabled
+        showCurrentSettings();
     }
 
     @Override
@@ -73,24 +79,50 @@ public class SettingsWindow extends JFrame implements ActionListener
         {
             // Check for the player type 
             if (playerX.isSelected())
-                Settings.playerType = TileType.X;
-            else if (playerY.isSelected())
-                Settings.playerType = TileType.O;
+                saveData.setPlayerType(TileType.X);
+            else if (playerO.isSelected())
+                saveData.setPlayerType(TileType.O);
 
             // Check for the difficulty
-            else if (easy.isSelected())
-                Settings.difficulty = Settings.EASY;
+            if (easy.isSelected())
+                saveData.setDifficulty(Data.EASY);
             else if (medium.isSelected())
-                Settings.difficulty = Settings.MEDIUM;
+                saveData.setDifficulty(Data.MEDIUM);
             else if (hard.isSelected())
-                Settings.difficulty = Settings.HARD;
+                saveData.setDifficulty(Data.HARD);
             else if (unbeatable.isSelected())
-                Settings.difficulty = Settings.UNBEATABLE;
+                saveData.setDifficulty(Data.UNBEATABLE);
+
+            try 
+            {
+                DataManagement.saveData(saveData, "SaveData");
+            } 
+            catch (Exception exception) 
+            {
+                System.out.println("UNABLE TO SAVE DATA");
+            }
 
             this.dispose();
         }
         else if (e.getSource() == cancel)
             this.dispose();
+    }
+
+    private void showCurrentSettings()
+    {
+        if (saveData.getDifficulty() == Data.EASY)
+            easy.setSelected(true);
+        else if (saveData.getDifficulty() == Data.MEDIUM)
+            medium.setSelected(true);
+        else if (saveData.getDifficulty() == Data.HARD)
+            hard.setSelected(true);
+        else if (saveData.getDifficulty() == Data.UNBEATABLE)
+            unbeatable.setSelected(true);
+
+        if (saveData.getPlayerType() == TileType.X)
+            playerX.setSelected(true);
+        else if (saveData.getPlayerType() == TileType.O)
+            playerO.setSelected(true);
     }
 
     private JRadioButton addRadioButton(String text, ButtonGroup group, JPanel container)
@@ -103,5 +135,4 @@ public class SettingsWindow extends JFrame implements ActionListener
 
         return button;
     }
-
 }
