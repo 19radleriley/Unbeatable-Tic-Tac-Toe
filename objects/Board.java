@@ -1,3 +1,5 @@
+package objects;
+
 /*
  * Author: Riley Radle
  * Description: 
@@ -6,14 +8,12 @@
  *      tiles are stored in a 1 dimensional array
  *      but can be thought of as a 3 * 3 grid.
  */
-
-package objects;
-
 public class Board 
 {
       private Tile[] board;
       private int width; 
        
+      
       public Board(int width)
       {
           // Store in a 1D array for more cache hits

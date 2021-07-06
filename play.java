@@ -1,13 +1,12 @@
+import objects.*;
+import java.util.Scanner;
+
 /*
  * Author: Riley Radle
  * Description: 
  *      This is the driver that directs the flow of the 
  *      tic tac toe game.  
  */
-
-import objects.*;
-import java.util.Scanner;
-
 public class play
 {
     public static void main(String[] args) 
