@@ -60,7 +60,8 @@ public class Board extends JPanel
     public boolean setTile(Tile tile, int state) 
     {
         // Before assigning, check to make sure the tile is un-occupied.
-        if (tile != null && tile.getState() == Data.PLAYER_N) {
+        if (tile != null && tile.getState() == Data.PLAYER_N) 
+        {
             // Set the tile state and return true.
             tile.setState(state);
             return true;
