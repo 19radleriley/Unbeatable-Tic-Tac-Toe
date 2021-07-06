@@ -79,9 +79,9 @@ public class SettingsWindow extends JFrame implements ActionListener
         {
             // Check for the player type 
             if (playerX.isSelected())
-                saveData.setPlayerType(TileType.X);
+                saveData.setPlayerType(Data.PLAYER_X);
             else if (playerO.isSelected())
-                saveData.setPlayerType(TileType.O);
+                saveData.setPlayerType(Data.PLAYER_O);
 
             // Check for the difficulty
             if (easy.isSelected())
@@ -119,9 +119,9 @@ public class SettingsWindow extends JFrame implements ActionListener
         else if (saveData.getDifficulty() == Data.UNBEATABLE)
             unbeatable.setSelected(true);
 
-        if (saveData.getPlayerType() == TileType.X)
+        if (saveData.getPlayerType() == Data.PLAYER_X)
             playerX.setSelected(true);
-        else if (saveData.getPlayerType() == TileType.O)
+        else if (saveData.getPlayerType() == Data.PLAYER_O)
             playerO.setSelected(true);
     }
 

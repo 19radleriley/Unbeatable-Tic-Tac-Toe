@@ -14,12 +14,10 @@ import java.awt.*;
 
 public class Tile extends JButton
 {
-    private int state, row, col;
+    private int state;
 
     public Tile(int row, int col, int state) 
     {
-        this.row = row;
-        this.col = col;
         this.state = state;
     }
 
@@ -34,27 +32,11 @@ public class Tile extends JButton
         setGraphics(state);
     }
 
-    public int getRow() 
-    {
-        return row;
-    }
-
-    public int getCol() 
-    {
-        return col;
-    }
-
-    public void setLocation(int row, int col) 
-    {
-        this.row = row;
-        this.col = col;
-    }
-
     private void setGraphics(int state)
     {
-        if (state != TileType.N)
+        if (state != Data.PLAYER_N)
         {
-            String text = state == TileType.X ? "X" : "O";
+            String text = state == Data.PLAYER_X ? "X" : "O";
             this.setText(text);
             this.setFont(new Font("Calibri", Font.PLAIN, 120));
         }

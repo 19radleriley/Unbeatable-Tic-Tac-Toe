@@ -132,7 +132,7 @@ public class Driver implements ActionListener
 
             // If there is no AI, then the loser should go first in the next game
             if (ai == null)
-                currentPlayer = winner == 3 ? TileType.O : TileType.X;
+                currentPlayer = winner == 3 ? Data.PLAYER_O : Data.PLAYER_X;
             
             JOptionPane.showMessageDialog(null, winMessage);
             return true;

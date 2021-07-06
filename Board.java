@@ -33,7 +33,7 @@ public class Board extends JPanel
           {
               for (int col = 0; col < width; col++)
               {
-                  Tile tile = new Tile(row, col, TileType.N);
+                  Tile tile = new Tile(row, col, Data.PLAYER_N);
                   tile.addActionListener(driver);
                   tile.setFocusable(false);
 
@@ -44,18 +44,10 @@ public class Board extends JPanel
           }
       }
 
-      public void toggleTiles(boolean clickable)
-      {
-          for (int i = 0; i < board.length; i++)
-          {
-              board[i].setEnabled(clickable);
-          }
-      }
-
       public boolean setTile(Tile tile, int state)
       {
           // Before assigning, check to make sure the tile is un-occupied.
-          if (tile != null && tile.getState() == TileType.N)
+          if (tile != null && tile.getState() == Data.PLAYER_N)
           {
               // Set the tile state and return true.
               tile.setState(state);
@@ -77,7 +69,7 @@ public class Board extends JPanel
           {
               for (int col = 0; col < width; col++)
               {
-                  if (board[row * width + col].getState() == TileType.N)
+                  if (board[row * width + col].getState() == Data.PLAYER_N)
                       return false;
               }
           }
@@ -121,14 +113,14 @@ public class Board extends JPanel
       {
           for (Tile t : board)
           {
-              t.setState(TileType.N);
+              t.setState(Data.PLAYER_N);
           }
       }
 
       public Tile getBestMove()
       {
           Tile bestTile = null;
-          boolean isMaximizingPlayer = saveData.getPlayerType() == TileType.X ? true : false;
+          boolean isMaximizingPlayer = saveData.getPlayerType() == Data.PLAYER_X ? true : false;
           int bestValue = isMaximizingPlayer ? Integer.MAX_VALUE : Integer.MIN_VALUE;
 
           // Loop through all of the possible next moves
@@ -137,7 +129,7 @@ public class Board extends JPanel
               for (int y = 0; y < width; y++)
               {
                   // Make sure the tile is not already occupied 
-                  if (board[x * width + y].getState() == TileType.N)
+                  if (board[x * width + y].getState() == Data.PLAYER_N)
                   {
                       // Set the board as if the AI picked this spot
                       board[x * width + y].setState(-saveData.getPlayerType());
@@ -146,7 +138,7 @@ public class Board extends JPanel
                       int moveValue = minimax(isMaximizingPlayer);
 
                       // Set the board back to normal
-                      board[x * width + y].setState(TileType.N);
+                      board[x * width + y].setState(Data.PLAYER_N);
 
                       // See if this move had the best value
                       if (isMaximizingPlayer)
@@ -189,14 +181,14 @@ public class Board extends JPanel
               {
                   for (int y = 0; y < width; y++)
                   {
-                      if (board[x * width + y].getState() == TileType.N)
+                      if (board[x * width + y].getState() == Data.PLAYER_N)
                       {
                           // Set the board as if the player made this move
-                          board[x * width + y].setState(TileType.X);
+                          board[x * width + y].setState(Data.PLAYER_X);
                           int value = minimax(false);
 
                           // Set the board back to normal                        
-                          board[x * width + y].setState(TileType.N);
+                          board[x * width + y].setState(Data.PLAYER_N);
 
                           bestValue = Math.max(bestValue, value);
                       }
@@ -214,14 +206,14 @@ public class Board extends JPanel
               {
                   for (int y = 0; y < width; y++)
                   {
-                      if (board[x * width + y].getState() == TileType.N)
+                      if (board[x * width + y].getState() == Data.PLAYER_N)
                       {
                           // Set the board as if the player made this move
-                          board[x * width + y].setState(TileType.O);
+                          board[x * width + y].setState(Data.PLAYER_O);
                           int value = minimax(true);
 
                           // Set the board back to normal                        
-                          board[x * width + y].setState(TileType.N);
+                          board[x * width + y].setState(Data.PLAYER_N);
 
                           bestValue = Math.min(bestValue, value);
                       }
