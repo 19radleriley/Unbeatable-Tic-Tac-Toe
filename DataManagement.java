@@ -2,8 +2,23 @@ import java.io.ObjectInputStream;
 import java.io.*;
 import java.nio.file.*;
 
+/**
+ * Author: Riley Radle
+ * Description: 
+ *      This class allows for a Data object to be saved
+ *      to and loaded from a file.  This allows for a 
+ *      user's game data to be witheld across multiple 
+ *      runs of the program.
+ */
 public class DataManagement
 {
+    /**
+     * Saves the data to a file
+     * 
+     * @param data : A serializable object to hold the game data
+     * @param fileName : The name of the file as a String
+     * @throws Exception
+     */
     public static void saveData(Serializable data, String fileName) throws Exception
     {
         try (ObjectOutputStream output = new ObjectOutputStream(
@@ -13,6 +28,12 @@ public class DataManagement
         }
     }  
 
+    /**
+     * Loads data from a file
+     * 
+     * @param fileName : The name of the file as a String
+     * @throws Exception
+     */
     public static Object loadData(String fileName) throws Exception
     {
         try (ObjectInputStream input = new ObjectInputStream(
@@ -23,6 +44,16 @@ public class DataManagement
     }     
 }
 
+/**
+ * Author: Riley Radle
+ * Description: 
+ *      This class is a serializable object 
+ *      which can more securely be saved 
+ *      to a file.  Data holds the user's 
+ *      settings and stats, as well as other
+ *      constants used throughout the project.
+ *      Data is saved to the file SaveData
+ */
 class Data implements Serializable
 {
     // Needed for serialization
@@ -46,7 +77,13 @@ class Data implements Serializable
     private int difficulty = EASY;
     private int playerType = PLAYER_X;
     private boolean movesFirst = true;
-
+    
+    /**
+     * In the constructor, set up the default 
+     * settings, and values of the stats.
+     * This is called if there is no data
+     * to be read from the file SaveData
+     */
     public Data()
     {
         this.difficulty = Data.EASY;
@@ -56,6 +93,8 @@ class Data implements Serializable
         this.gamesPlayed = 0;
         this.gamesWon = 0;
     }
+
+    /** Setters and getters for the saved game data */
 
     public void gamePlayed(boolean userWon)
     {

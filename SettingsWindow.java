@@ -2,25 +2,41 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+/**
+ * Author: Riley Radle
+ * Descrition: 
+ *      This class creates a new JFrame that allows the 
+ *      the user to update their game settings. These 
+ *      settings are saved in SaveData.
+ */
 public class SettingsWindow extends JFrame implements ActionListener
 {
+    /** Reference to the user's save data */
     private Data saveData;
 
+    /** Components for SettingsWindow */
     private JButton save;
     private JButton cancel;
-
     private JRadioButton easy;
     private JRadioButton medium;
     private JRadioButton hard;
     private JRadioButton unbeatable;
-
     private JRadioButton playerX;
     private JRadioButton playerO;
 
+    /**
+     * This constructor sets up and adds all of the
+     * components for the SettingsWindow. It also initializes
+     * a reference to the user's saved data.
+     * 
+     * @param saveData : Reference to user's saved data
+     */
     public SettingsWindow(Data saveData)
     {
+        // Initialize saved data
         this.saveData = saveData;
 
+        // Set up basic JFrame components
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.setLayout(new GridLayout(3, 1));
         this.setSize(200, 300);
@@ -68,13 +84,17 @@ public class SettingsWindow extends JFrame implements ActionListener
         this.add(closeContainer);
         this.setVisible(true);
 
-        // Display the Data already enabled
+        // Display the settings already enabled in saved data
         showCurrentSettings();
     }
 
     @Override
+    /**
+     * Handles the actions caused by events in the SettingsWindow
+     */
     public void actionPerformed(ActionEvent e) 
     {
+        // The user clicked on the save button
         if (e.getSource() == save)
         {
             // Check for the player type 
@@ -93,6 +113,7 @@ public class SettingsWindow extends JFrame implements ActionListener
             else if (unbeatable.isSelected())
                 saveData.setDifficulty(Data.UNBEATABLE);
 
+            // Save the data to the SaveData file
             try 
             {
                 DataManagement.saveData(saveData, "SaveData");
@@ -104,12 +125,19 @@ public class SettingsWindow extends JFrame implements ActionListener
 
             this.dispose();
         }
+        // The user doesn't want to save their changes
         else if (e.getSource() == cancel)
             this.dispose();
     }
 
+    /**
+     * This method sets the radio buttons to display the current
+     * settings that the user already has selected once the 
+     * SettingsWindow is opened.  
+     */
     private void showCurrentSettings()
     {
+        // Display the current difficulty
         if (saveData.getDifficulty() == Data.EASY)
             easy.setSelected(true);
         else if (saveData.getDifficulty() == Data.MEDIUM)
@@ -119,12 +147,22 @@ public class SettingsWindow extends JFrame implements ActionListener
         else if (saveData.getDifficulty() == Data.UNBEATABLE)
             unbeatable.setSelected(true);
 
+        // Display the user's player type
         if (saveData.getPlayerType() == Data.PLAYER_X)
             playerX.setSelected(true);
         else if (saveData.getPlayerType() == Data.PLAYER_O)
             playerO.setSelected(true);
     }
 
+    /**
+     * This method sets up and adds new radio button.
+     * This allows for less code in the constructor.
+     * 
+     * @param text : The String that will be displayed on the button
+     * @param group : The group that the button belongs to 
+     * @param container : The JPanel to add the button to
+     * @return
+     */
     private JRadioButton addRadioButton(String text, ButtonGroup group, JPanel container)
     {
         JRadioButton button = new JRadioButton(text);

@@ -1,7 +1,16 @@
 
-
+/**
+ * Author: Riley Radle 
+ * Description: 
+ *      Class represents the AI for the single player 
+ *      tic tac toe mode.  
+ */
 public class AI
 {
+    /**
+     * Sayings that will be outputted for different
+     * difficulties in single player mode
+     */
     private final String[] easySayings = 
     {
         "I think that was a good move?",
@@ -49,21 +58,40 @@ public class AI
         "Don't blink, you might miss my move"
     };
 
+    /** Reference to the user's saved Data */
     private Data saveData;
 
+    /**
+     * Constructor initializes the 
+     * reference to user's saved data. 
+     * 
+     * @param saveData
+     */
     public AI(Data saveData)
     {
         this.saveData = saveData;
     }
 
+    /**
+     * Play's a single turn for the AI.
+     * Based on the difficulty, there will 
+     * be a preset chance that the AI makes 
+     * either the best move, or a random move.
+     * 
+     * @param board : The game board 
+     */
     public void playTurn(Board board)
     {
+        // Get the probability that the best move is made.
         float prob = bestMoveProbability();
+
+        // The AI will make the best move
         if (Math.random() < prob)
         {
             Tile bestTile = board.getBestMove();
             board.setTile(bestTile, -saveData.getPlayerType()); 
         }
+        // The AI will pick a random move
         else
         {
             boolean validTile = false;
@@ -78,8 +106,15 @@ public class AI
         }
     }
 
+    /**
+     * Get a random saying from the corresponding
+     * list of sayings, based on the difficulty in Data
+     * 
+     * @return : An AI saying as a String
+     */
     public String getSaying()
     {
+        // Use the chooseRandom() helper to get a saying based on difficulty.
         switch(saveData.getDifficulty())
         {
             case 0:
@@ -95,8 +130,15 @@ public class AI
         return "";
     }
 
+    /**
+     * Based on the difficulty in Data, determine
+     * the probability that the AI will make the best move
+     * 
+     * @return : The probability that the AI will make the best move.
+     */
     private float bestMoveProbability()
     {
+        // Choose a probability(float) based on the difficulty.
         switch(saveData.getDifficulty())
         {
             case 0:
@@ -112,8 +154,15 @@ public class AI
         return 1.0f;
     }
 
+    /**
+     * Helper method that chooses a random String from a list 
+     * of Strings. This is used by the getSaying() method.
+     * @param sayings
+     * @return
+     */
     private String chooseRandom(String[] sayings)
     {
+        // Randomly choose and index, and then return that String.
         int index = (int)(Math.random() * sayings.length);
         return sayings[index];
     }

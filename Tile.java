@@ -1,37 +1,53 @@
-/*
- * Author: Riley Radle
- * Description: 
- *      Contains a Tile class to represent each tile 
- *      on the tic tac toe board.  Each tile has three
- *      attributes, an X location, a Y location, and 
- *      a tile state (X O or N).
- */
-
-
 import javax.swing.*;
 import java.awt.*;
 
-
+/*
+ * Author: Riley Radle
+ * Description: 
+ *      This class represents each tile 
+ *      on the tic tac toe board.  Each tile has three
+ *      attributes.  Each tile is a JButton.  Their event
+ *      is handled in Driver.java.
+ */
 public class Tile extends JButton
 {
+    /** The state of the Tile (X, O, or N) */
     private int state;
 
-    public Tile(int row, int col, int state) 
+    /**
+     * Constructor sets up the state of this Tile
+     *
+     * @param state : X, O, or N
+     */
+    public Tile(int state) 
     {
         this.state = state;
     }
 
+    /**
+     * @return : The state of this Tile
+     */
     public int getState() 
     {
         return state;
     }
 
+    /**
+     * Set the state of this Tile
+     * 
+     * @param state : X, O, or N
+     */
     public void setState(int state) 
     {
         this.state = state;
         setGraphics(state);
     }
 
+    /**
+     * Set the graphics of this Tile based on its state
+     * 
+     * @param state : X, O, or N
+     */
     private void setGraphics(int state)
     {
         if (state != Data.PLAYER_N)

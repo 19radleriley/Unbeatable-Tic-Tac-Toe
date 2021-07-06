@@ -1,15 +1,20 @@
-
-
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Author: Riley Radle
+ * Description: 
+ *      This class is a JFrame object that contains
+ *      all of the needed visual components for playing 
+ *      tic tac toe.  It holds most of the graphics for the project.
+ */
 public class GameWindow extends JFrame
 {
-    // Height and width components
+    /** Height and width of the GameWindow */
     public int width = 550;
     public int height = 350;
 
-    // Components of the GameWindow
+    /** Components for the GameWindow */
     private Driver driver;
     private Data saveData;
     private JPanel container;
@@ -22,6 +27,13 @@ public class GameWindow extends JFrame
     public JMenuItem stats;
     public JMenuItem modeSelect;
 
+    /**
+     * The constructor sets up the needed parts of the GameWindow/JFrame.
+     * It also initializes some of the components of the window.
+     * 
+     * @param driver : The Driver for this project (ActionListener)
+     * @param saveData : Referenct to the user's saved data
+     */
     public GameWindow(Driver driver, Data saveData)
     {
         super("TIC TAC TOE");
@@ -51,10 +63,15 @@ public class GameWindow extends JFrame
         this.setJMenuBar(menu);
         this.setVisible(true);
 
+        // Initialize the save data and the driver for later use.
         this.saveData = saveData;
         this.driver = driver;
     }
 
+    /**
+     * This method sets up the components of the main screen. 
+     * From here the user can select which mode they wish to play.
+     */
     public void mainScreen()
     {
         // Create the outer container
@@ -81,20 +98,29 @@ public class GameWindow extends JFrame
         // Add the elements and refresh window
         outer.add(container);
         this.add(outer);
-        new Circling(this);
+        new Circling(this); // Animations
         this.pack();
         this.setVisible(true);
         this.repaint();
     }
 
+    /**
+     * This method sets up the components for single
+     * and two player modes.  From here the user can play 
+     * a game of tic tac toe.
+     */
     public void playScreen()
     {
+        // Set up the container
         container = new JPanel();
         container.setLayout(new BorderLayout());
         this.add(container);
-        this.width = 500;
+
+        // Change the height of the window
         this.height = 700;
         this.setSize(width, height);
+
+        // Add the board and the chatbox, then repaint the window
         addBoard();
         addChatBox();
         this.setVisible(true);
@@ -105,8 +131,14 @@ public class GameWindow extends JFrame
         board.reset();
     }
 
-    // ================== Private Methods for Creating and adding Components ==================
+    /** ================== Private Methods for Creating and adding Components ================== */
 
+    /**
+     * This method setus up and adds the Tic Tac Toe
+     * title JLabel to the GameWindow on the main screen.
+     * 
+     * @param title : String that will be displayed as the title
+     */
     private void addTitle(String title)
     {
         JLabel label = new JLabel();
@@ -116,14 +148,21 @@ public class GameWindow extends JFrame
         container.add(label);
     }
 
+    /**
+     * This method sets up and adds the single
+     * and two player buttons that are displayed 
+     * on the main screen of the GameWindow
+     */
     private void addModeButtons()
     {
+        // Set up single player
         singlePlayer = new JButton("Single Player");
         singlePlayer.setFont(new Font("Consolas", Font.ITALIC, 50));
         singlePlayer.setFocusable(false);
         singlePlayer.addActionListener(driver);
         container.add(singlePlayer);
 
+        // Set up two player
         twoPlayer = new JButton("Two Player");
         twoPlayer.setFont(new Font("Consolas", Font.ITALIC, 50));
         twoPlayer.setFocusable(false);
@@ -131,6 +170,10 @@ public class GameWindow extends JFrame
         container.add(twoPlayer);
     }
 
+    /**
+     * This method sets up and adds a new Tic 
+     * Tac Toe board to the GameWindow.
+     */
     private void addBoard()
     {
         JPanel boardContainer = new JPanel();
@@ -143,6 +186,12 @@ public class GameWindow extends JFrame
         container.add(boardContainer);
     }
 
+    /**
+     * This method sets up and adds a "chatbox"
+     * below the Tic Tac Toe board.  In single
+     * player mode, this is where the AI will 
+     * output its sayings. 
+     */
     private void addChatBox()
     {
         JPanel bottom = new JPanel();
@@ -159,6 +208,10 @@ public class GameWindow extends JFrame
         container.add(bottom, BorderLayout.SOUTH);
     }
 
+    /**
+     * This method adds a small footnote containing
+     * my name to the bottom of the GameWindow
+     */
     private void addFootNote()
     {
         JLabel footNote = new JLabel("  Author: Riley Radle");
