@@ -98,7 +98,7 @@ public class GameWindow extends JFrame
         // Add the elements and refresh window
         outer.add(container);
         this.add(outer);
-        new Circling(this); // Animations
+        new Animations(this); // Animations
         this.pack();
         this.setVisible(true);
         this.repaint();
