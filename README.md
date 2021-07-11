@@ -27,7 +27,7 @@ been interesting in making games, and this strengthened my fundamental skills fo
 ## Command Line
 1. Download the 'bin' folder
 2. Open a terminal / command prompt 
-3. Navigate to the downloaded 'bin' folder (if unfamiliar with how to do this see the references below)
+3. Navigate to the downloaded 'bin' folder (if unfamiliar with how to do this see the references below)  
 Linux and Max: http://mally.stanford.edu/~sr/computing/basic-unix.html  
 Windows: https://blogs.umass.edu/Techbytes/2014/11/14/file-navigation-with-windows-command-prompt/ 
 
@@ -38,10 +38,20 @@ java Driver
 
 
 # Future Add Ons  
-1. Find a way to save the data when running from a .jar file
-2. Add more settings that allow the user to further customize their games
-3. Add color themes allowing the user to change the look of the project
-4. Use a more efficient algorithm than MiniMax
-5. Add support for games on boards larger than 3x3
-6. Add music to the application
+1. Add more settings that allow the user to further customize their games
+2. Add color themes allowing the user to change the look of the project
+3. Use a more efficient algorithm than MiniMax
+4. Add support for games on boards larger than 3x3
+5. Add music to the application
 
+<br>  
+
+<small>  
+
+__*Author: Riley Radle*__  
+Check out my socials!  
+*Instagram*: https://www.instagram.com/riley_radle/  
+*Artstation*: https://www.artstation.com/gatoradle11/    
+*Linkedin*: https://www.linkedin.com/in/riley-radle-00a4a0184/
+
+</small>
