@@ -48,7 +48,7 @@ java Driver
 
 <small>  
 
-__*Author: Riley Radle*__  
+__*@Author: Riley Radle*__  
 Check out my socials!  
 *Instagram*: https://www.instagram.com/riley_radle/  
 *Artstation*: https://www.artstation.com/gatoradle11/    
