@@ -1,0 +1,3 @@
+7. Refactor and get rid of TileState / TileType
+	- Can just put these in settings 
+8. Implement the MovesFirst setting 
