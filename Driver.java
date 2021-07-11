@@ -41,7 +41,6 @@ public class Driver implements ActionListener
         catch (Exception e) 
         {
             // If there is no save data, create a new one
-            System.out.println("UNABLE TO LOAD DATA");
             saveData = new Data();
         }
 
@@ -249,7 +248,6 @@ public class Driver implements ActionListener
         } 
         catch (Exception e) 
         {
-            System.out.println("UNABLE TO SAVE DATA");
         }
     }
 }
