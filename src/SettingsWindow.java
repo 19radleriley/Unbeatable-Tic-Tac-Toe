@@ -1,3 +1,4 @@
+package src;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -23,6 +24,8 @@ public class SettingsWindow extends JFrame implements ActionListener
     private JRadioButton unbeatable;
     private JRadioButton playerX;
     private JRadioButton playerO;
+    private JRadioButton userMovesFirst;
+    private JRadioButton aiMovesFirst;
 
     /**
      * This constructor sets up and adds all of the
@@ -38,7 +41,7 @@ public class SettingsWindow extends JFrame implements ActionListener
 
         // Set up basic JFrame components
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        this.setLayout(new GridLayout(3, 1));
+        this.setLayout(new GridLayout(4, 1));
         this.setSize(200, 300);
         this.setResizable(false);
                 
@@ -69,7 +72,17 @@ public class SettingsWindow extends JFrame implements ActionListener
         playerX = addRadioButton("X", playerType, playerTypeContainer);
         playerO = addRadioButton("O", playerType, playerTypeContainer);
 
-        // Add a buttons to save or cancel and close the window
+        // Create a group for userMovesFirst
+        ButtonGroup movesFirst = new ButtonGroup();
+        JPanel mfContainer = new JPanel();
+        mfContainer.setLayout(new GridLayout(4, 1));
+        mfContainer.add(new JLabel("Who Moves First"));
+
+        // Create the radio button for userMovesFirst
+        userMovesFirst = addRadioButton("User", movesFirst, mfContainer);
+        aiMovesFirst = addRadioButton("AI", movesFirst, mfContainer);
+
+        // Add buttons to save or cancel and close the window
         JPanel closeContainer = new JPanel();
         cancel = new JButton("Cancel");
         cancel.addActionListener(this);
@@ -80,6 +93,7 @@ public class SettingsWindow extends JFrame implements ActionListener
         closeContainer.add(save);
 
         this.add(playerTypeContainer);
+        this.add(mfContainer);
         this.add(difficultyContainer);
         this.add(closeContainer);
         this.setVisible(true);
@@ -103,6 +117,12 @@ public class SettingsWindow extends JFrame implements ActionListener
             else if (playerO.isSelected())
                 saveData.setPlayerType(Data.PLAYER_O);
 
+            // Check for who moves first 
+            if (userMovesFirst.isSelected())
+                saveData.setMovesFirst(true);
+            else if (aiMovesFirst.isSelected())
+                saveData.setMovesFirst(false);
+
             // Check for the difficulty
             if (easy.isSelected())
                 saveData.setDifficulty(Data.EASY);
@@ -120,7 +140,6 @@ public class SettingsWindow extends JFrame implements ActionListener
             } 
             catch (Exception exception) 
             {
-                System.out.println("UNABLE TO SAVE DATA");
             }
 
             this.dispose();
@@ -146,6 +165,12 @@ public class SettingsWindow extends JFrame implements ActionListener
             hard.setSelected(true);
         else if (saveData.getDifficulty() == Data.UNBEATABLE)
             unbeatable.setSelected(true);
+        
+        // Display who moves first 
+        if (saveData.getMovesFirst() == true)
+            userMovesFirst.setSelected(true);
+        else if (saveData.getMovesFirst() == false)
+            aiMovesFirst.setSelected(true);
 
         // Display the user's player type
         if (saveData.getPlayerType() == Data.PLAYER_X)

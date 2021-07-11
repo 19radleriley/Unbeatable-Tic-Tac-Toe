@@ -1,3 +1,4 @@
+package src;
 
 /**
  * Author: Riley Radle 
@@ -80,7 +81,7 @@ public class AI
      * 
      * @param board : The game board 
      */
-    public void playTurn(Board board)
+    public void playTurn(GameWindow ttt)
     {
         // Get the probability that the best move is made.
         float prob = bestMoveProbability();
@@ -88,8 +89,8 @@ public class AI
         // The AI will make the best move
         if (Math.random() < prob)
         {
-            Tile bestTile = board.getBestMove();
-            board.setTile(bestTile, -saveData.getPlayerType()); 
+            Tile bestTile = ttt.board.getBestMove();
+            ttt.board.setTile(bestTile, -saveData.getPlayerType()); 
         }
         // The AI will pick a random move
         else
@@ -101,9 +102,12 @@ public class AI
                 int row = (int)(Math.random() * 3);
                 int col = (int)(Math.random() * 3);
                 
-                validTile = board.setTile(board.getTile(row, col), -saveData.getPlayerType());
+                validTile = ttt.board.setTile(ttt.board.getTile(row, col), -saveData.getPlayerType());
             }
         }
+        
+        // Set the chat to a random saying
+        ttt.chat.setText("\"" + getSaying() + "\" -AI");
     }
 
     /**
@@ -112,7 +116,7 @@ public class AI
      * 
      * @return : An AI saying as a String
      */
-    public String getSaying()
+    private String getSaying()
     {
         // Use the chooseRandom() helper to get a saying based on difficulty.
         switch(saveData.getDifficulty())

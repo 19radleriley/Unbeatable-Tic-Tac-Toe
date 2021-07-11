@@ -1,3 +1,4 @@
+package src;
 import javax.swing.*;
 import java.awt.event.*;
 
@@ -15,14 +16,14 @@ public class Driver implements ActionListener
     /** Other needed variables */
     private GameWindow ttt;
     private AI ai;
-    private int currentPlayer;
     private Data saveData;
+    private int currentPlayer;
 
     public static void main(String[] args) 
     {
         // Start the game
         Driver d = new Driver();
-        d.startTTT();
+        d.startProgram();
     }
 
     /**
@@ -30,7 +31,7 @@ public class Driver implements ActionListener
      * reading the save data, and then creating a
      * new GameWindow().
      */
-    public void startTTT()
+    public void startProgram()
     {
         // Attempt to read the game data.
         try 
@@ -51,38 +52,6 @@ public class Driver implements ActionListener
         ttt.mainScreen();
     }
 
-    @Override
-    /**
-     * Handles the actions caused by events in the GameWindow
-     */
-    public void actionPerformed(ActionEvent e) 
-    {
-        // Start up a new TTT board in single player mode.
-        if (e.getSource() == ttt.singlePlayer)
-            playTTT(true);
-
-        // Start a new TTT board in two player mode.
-        else if (e.getSource() == ttt.twoPlayer)
-            playTTT(false);
-
-        // Open up a settings window.
-        else if (e.getSource() == ttt.settings) 
-            updateSettings();
-        
-        // Open up a stats window.
-        else if (e.getSource() == ttt.stats)
-            viewStats();
-        
-        // Take the user back to the main screen
-        else if (e.getSource() == ttt.modeSelect)
-            modeSelect();
-
-        // Else, the event must be from one of the Tiles
-        // Play the next turn
-        else 
-            playerTurn((Tile)e.getSource());
-    }
-
     /**
      * This method sets up a new GameWindow when 
      * a user wants to go back to the main screen
@@ -101,55 +70,107 @@ public class Driver implements ActionListener
      * 
      * @param isSinglePlayer : Boolean representing single or two player 
      */
-    private void playTTT(boolean isSinglePlayer)
+    private void setupMode(boolean isSinglePlayer)
     {
         // If single player, there will be an AI object
         ai = isSinglePlayer ? new AI(saveData) : null;
         ttt.dispose();
         ttt = new GameWindow(this, saveData);
         ttt.playScreen();
+
+        // If the user wants the AI to play first, initialize the variable
+        if (saveData.getMovesFirst() == false)
+            ai.playTurn(ttt);
+    }
+
+    @Override
+    /**
+     * Handles the actions caused by events in the GameWindow
+     */
+    public void actionPerformed(ActionEvent e) 
+    {
+        // Start up a new TTT board in single player mode.
+        if (e.getSource() == ttt.singlePlayer)
+        {
+            setupMode(true);
+            currentPlayer = saveData.getPlayerType(); 
+        }
+
+        // Start a new TTT board in two player mode.
+        else if (e.getSource() == ttt.twoPlayer)
+        {
+            setupMode(false);
+            currentPlayer = saveData.getPlayerType(); 
+        }
+
+        // Open up a settings window.
+        else if (e.getSource() == ttt.settings) 
+            updateSettings();
+        
+        // Open up a stats window.
+        else if (e.getSource() == ttt.stats)
+            viewStats();
+        
+        // Take the user back to the main screen
+        else if (e.getSource() == ttt.modeSelect)
+            modeSelect();
+
+        // Else, the event must be from one of the Tiles
+        // Play the next turn
+        else 
+            playTurn((Tile)e.getSource());
     }
 
     /**
-     * This method plays out one turn of Tic Tac Toe.
+     * This method directs the flow of  one turn of Tic Tac Toe.
      * It handles the logic for both single and two player.
      * 
      * @param tile : The Tile that was clicked
      */
-    private void playerTurn(Tile tile)
+    private void playTurn(Tile tile)
     {
         boolean gameOver = false;
 
-        // Two Player 
-        if (ai == null)
-        {
-            boolean tileSet = ttt.board.setTile(tile, currentPlayer);
+        // Move and then check for win or tie
+        boolean successfulMove = userMove(tile, currentPlayer == saveData.getPlayerType());
+        if (successfulMove)
             gameOver = checkForWinOrTie();
 
-            // Tile was set and game is not over, switch to the other player 
-            if (tileSet && gameOver == false)
-                currentPlayer *= -1;
-        }
-        // Single Player 
-        else
+        // If the AI exists we are in single player mode. Check for successful move first.
+        if (successfulMove && ai != null && !gameOver)
         {
-            // Set the tile and then check for a win
-            boolean tileSet = ttt.board.setTile(tile, saveData.getPlayerType());
+            ai.playTurn(ttt);
             gameOver = checkForWinOrTie();
-
-            // If the game isn't over and the user set a tile, the AI will move
-            if (gameOver == false && tileSet)
-            {
-                ai.playTurn(ttt.board);
-                ttt.chat.setText("\"" + ai.getSaying() + "\" -AI");
-                gameOver = checkForWinOrTie();
-            }
         }
-
 
         // If the game is over, restart the game
         if (gameOver == true)
+        {
             ttt.newGame();
+
+            // If the ai is supposed to play first, play a turn
+            if (ai != null && saveData.getMovesFirst() == false)
+                ai.playTurn(ttt);
+        }
+    }
+
+    /**
+     * This method handles the logic for a user's move.
+     * It is primarily used for two player mode.
+     * @param tile
+     * @param isAI
+     * @return
+     */
+    private boolean userMove(Tile tile, boolean isAI)
+    {
+        // Set the tile
+        boolean successfulMove = ttt.board.setTile(tile, currentPlayer);
+        
+        // Switch players
+        if (successfulMove && ai == null)
+            currentPlayer *= -1;
+        
+        return successfulMove;
     }
 
     /**
