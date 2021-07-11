@@ -1,4 +1,3 @@
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -118,20 +117,10 @@ public class SettingsWindow extends JFrame implements ActionListener
             try 
             {
                 DataManagement.saveData(saveData, "SaveData");
-                JOptionPane.showMessageDialog(null, "Successfully saved data");
             } 
             catch (Exception exception) 
             {
                 System.out.println("UNABLE TO SAVE DATA");
-
-                String stackTrace = "";
-                StackTraceElement[] s = exception.getStackTrace();
-                for (StackTraceElement element : s)
-                {
-                    stackTrace += element.toString() + "\n";
-                }
-
-                JOptionPane.showMessageDialog(null, stackTrace);
             }
 
             this.dispose();

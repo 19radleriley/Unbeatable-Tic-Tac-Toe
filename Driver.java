@@ -40,8 +40,7 @@ public class Driver implements ActionListener
         // If there is no game data, create one with the defaults
         catch (Exception e) 
         {
-            // Exception occurs when there is no saved data.
-            // Create a new one.
+            // If there is no save data, create a new one
             saveData = new Data();
         }
 
