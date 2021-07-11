@@ -25,9 +25,11 @@ of Java, which is the language I have the most experience in.
 # **Running / Viewing the Project**
 ## JAR File (Recommended / Simplest)
 1. Download the TTT.jar file from the repository.  
+2. Move the TTT.jar file into a file other than "Downloads" or "Desktop"  
+(This will allow for your settings and stats to be saved across multiple runs of the application).
 2. Double click on the TTT.jar file to run the project.  
 ## Command Line
-1. Download the 'bin' folder
+1. Download the project 
 2. Open a terminal / command prompt 
 3. Navigate to the downloaded 'bin' folder (if unfamiliar with how to do this see the references below)  
 Linux and Max: http://mally.stanford.edu/~sr/computing/basic-unix.html  
@@ -37,6 +39,18 @@ Windows: https://blogs.umass.edu/Techbytes/2014/11/14/file-navigation-with-windo
 java Driver  
 
 # Examples / Screenshots  
+## Running from TTT.jar
+![ClickTTT.jar](screenshots/ClickOnTTTJar.png)
+![ClickDownload](screenshots/ClickDownload.png)
+![ErrorMessage](screenshots/ErrorMessage.png)
+![FixErrorMessage](screenshots/FixErrorMessage.png)
+**NOTE**: You need java in order to run .jar files
+
+## Running from Command Line
+![DownloadZip](screenshots/DownloadZip.png)
+![DoubleClick](screenshots/DoubleClick.png)
+![NavigateToTTT](screenshots/NavigateToTTT.png)
+![RunCommand](screenshots/RunCommand.png)
 
 
 # Future Add Ons  
