@@ -11,8 +11,7 @@ the same computer. The project also implements basic settings and stats,
 as well as simple animations. 
 
 ## Why
-I chose to create this project for a couple of reasons. First, I have always  
-been interesting in making games, and this strengthened my fundamental skills for game development.  On top of this, it allowed me to demonstrate my knowledge of Java, which is the language I have the most experience in.  
+I chose to create this project for a couple of reasons. First, I have always been interesting in making games, and this strengthened my fundamental skills for game development.  On top of this, it allowed me to demonstrate my knowledge of Java, which is the language I have the most experience in.  
 
 ## Resources used  
 - Java
