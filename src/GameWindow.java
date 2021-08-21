@@ -33,13 +33,13 @@ public class GameWindow extends JFrame
      * It also initializes some of the components of the window.
      * 
      * @param driver : The Driver for this project (ActionListener)
-     * @param saveData : Referenct to the user's saved data
+     * @param saveData : Reference to the user's saved data
      */
     public GameWindow(Driver driver, Data saveData)
     {
         super("TIC TAC TOE");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setResizable(true);
+        this.setResizable(false);
         
         // Make the window always appear in the center of the screen
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();

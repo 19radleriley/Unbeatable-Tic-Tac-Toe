@@ -67,7 +67,7 @@ java Driver
 __*@Author: Riley Radle*__  
 Check out my socials!  
 *Instagram*: https://www.instagram.com/riley_radle/  
-*Artstation*: https://www.artstation.com/gatoradle11/    
+*Artstation*: https://www.artstation.com/radle2279/    
 *Linkedin*: https://www.linkedin.com/in/riley-radle-00a4a0184/
 
 </small>
